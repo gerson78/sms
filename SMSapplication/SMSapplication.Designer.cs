@@ -28,6 +28,7 @@ namespace SMSapplication
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SMSapplication));
             this.tabSMSapplication = new System.Windows.Forms.TabControl();
             this.tbPortSettings = new System.Windows.Forms.TabPage();
             this.gboPortSettings = new System.Windows.Forms.GroupBox();
@@ -677,6 +678,7 @@ namespace SMSapplication
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.gboConnectionStatus);
             this.Controls.Add(this.tabSMSapplication);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SMSapplication";
             this.Text = "SMS Application";

@@ -149,44 +149,19 @@ namespace SMSapplication
         {
             var table = new DataSet();
 
-            /* string MyConString = "DRIVER={MySQL ODBC 8.1 Driver};" +
-            "SERVER=waves-lab.net;" +
-            "DATABASE=waveslab_DB;" +
-            "UID=waveslab_gold;" +
-            "PASSWORD=3Xkw!^TN6[Ra;" +
-            "OPTION=3";
+           /* string cnx = @"Server=192.158.237.98; Database=waveslab_mp_db; Uid=waveslab_web; Pwd=rDcS6GwEYKhnw8dt; persistsecurityinfo=True; Port=3306; SslMode=none;";*/
 
-             //Connect to MySQL using Connector/ODBC
-             OdbcConnection MyConnection = new OdbcConnection(MyConString);
-             MyConnection.Open();*/
+           /*   string cnx = @"Server=192.158.237.98; Database=waveslab_DB; Uid=waveslab_web; Pwd=rDcS6GwEYKhnw8dt; persistsecurityinfo=True; Port=3306; SslMode=none;";*/
 
+           string cnx = @"Server=192.158.237.98; Database=masterzo_db; Uid=masterzon_sms; Pwd=rMD)AO4Kr9O0; persistsecurityinfo=True; Port=3306; SslMode=none;";
 
-            /*   MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
-                conn_string.Server = "192.158.237.98";
-               conn_string.UserID = "masterzo_web";
-               conn_string.Password = "rDcS6GwEYKhnw8dt";
-               conn_string.Database = "masterzon_db";
-               conn_string.SslMode = MySqlSslMode.None;*/
+            btnSendSMS.Text = "Detener";
+            btnSendSMS.BackColor = Color.Coral;
 
-            /*conn_string.Server = "waves-lab.net";
-            conn_string.UserID = "waveslab_gold";
-            conn_string.Password = "3Xkw!^TN6[Ra";
-            conn_string.Database = "waveslab_DB";
-            conn_string.SslMode = MySqlSslMode.None;*/
-
-
-            /*  conn_string.Server = "192.168.0.11";
-             conn_string.UserID = "waveslab_web";
-             conn_string.Password = "rDcS6GwEYKhnw8dt";
-             conn_string.Database = "waveslab_DB";
-             conn_string.SslMode = MySqlSslMode.None;*/
-
-            /*string cnx = @"Server=192.158.237.98; Database=waveslab_DB; Uid=waveslab_web; Pwd=rDcS6GwEYKhnw8dt; persistsecurityinfo=True; Port=3306; SslMode=none;";*/
-
-            string cnx = @"Server=192.158.237.98; Database=masterzo_db; Uid=masterzo_web; Pwd=rDcS6GwEYKhnw8dt; persistsecurityinfo=True; Port=3306; SslMode=none;";
-
-            btnSendSMS.Text = "Procesando";
-            btnSendSMS.BackColor = Color.CadetBlue;
+            if (cnx.Substring(32,11) == "waveslab_DB")
+            {
+                tbSendSMS.BackColor = Color.AntiqueWhite;
+            }
             try
             {
                  
@@ -206,9 +181,12 @@ namespace SMSapplication
 
                             DateTime hora = DateTime.Now;
                             txtFecHoraInicio.Text = hora.ToString("yyyy/MM/dd_HH:mm:ss");
-                            
+                            this.textIntervalos.Text = "120";
                             foreach (DataRow fila in dt.Rows)
                             {
+
+                                this.textIntervalos.Text = "20";
+
                                 string num_destino = fila["num_destinatario"].ToString();
                                 string txt_mensaje = fila["des_mensaje"].ToString();
                                 string codigo = fila["cod_notificacion"].ToString();
@@ -243,9 +221,9 @@ namespace SMSapplication
 
                                 }
 
-                            }                            
-
-                        }
+                            }
+                                
+                            }
                     }
                    
                 }               
@@ -265,6 +243,23 @@ namespace SMSapplication
 
         private void btnSendSMS_Click(object sender, EventArgs e)
         {
+            if (btnSendSMS.Text == "Detener")
+            {
+                this.gboPortSettings.Enabled = true;
+                objclsSMS.ClosePort(this.port);
+
+                //Remove tab pages
+                this.tabSMSapplication.TabPages.Remove(tbSendSMS);
+                this.tabSMSapplication.TabPages.Remove(tbReadSMS);
+                this.tabSMSapplication.TabPages.Remove(tbDeleteSMS);
+
+                this.lblConnectionStatus.Text = "Not Connected";
+                this.btnDisconnect.Enabled = false;
+
+                btnSendSMS.Text = "Iniciar";
+                btnSendSMS.BackColor = Color.DodgerBlue;
+            }
+
             System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
             //.............................................. Send SMS ....................................................
             try
